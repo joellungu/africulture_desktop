@@ -9,7 +9,7 @@ class ListageSuspendu extends GetView<SuspendusController> {
   @override
   Widget build(BuildContext context) {
     //
-    //controller.allPartenaires();
+    controller.allSuspendu();
     //
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,9 +39,10 @@ class ListageSuspendu extends GetView<SuspendusController> {
                             //print(controller.details.value);
                           },
                           leading: Icon(Icons.person),
-                          title: Text("${controller.suspandus[index]['nom']}"),
+                          title: Text(
+                              "${controller.suspandus[index]['nom']} \n${controller.suspandus[index]['email']}"),
                           subtitle: Text(
-                              "${controller.suspandus[index]['postnom']}  ${controller.suspandus[index]['prenom']}"),
+                              "${controller.suspandus[index]['email']} \n ${controller.suspandus[index]['centreAppel']}"),
                         ),
                       ),
                     )
@@ -70,27 +71,31 @@ class ListageSuspendu extends GetView<SuspendusController> {
                       text: TextSpan(text: '', children: [
                         const TextSpan(text: "Nom:    "),
                         TextSpan(text: "${controller.details['nom'] ?? ''}\n"),
-                        const TextSpan(text: "Postnom:    "),
+                        const TextSpan(text: "adresse:    "),
                         TextSpan(
-                            text: "${controller.details['postnom'] ?? ''}\n"),
-                        const TextSpan(text: "Prenom:    "),
+                            text: "${controller.details['adresse'] ?? ''}\n"),
+                        const TextSpan(text: "centreAppel:    "),
                         TextSpan(
-                            text: "${controller.details['prenom'] ?? ''}\n"),
-                        const TextSpan(text: "Sexe:    "),
-                        TextSpan(text: "${controller.details['sexe'] ?? ''}\n"),
-                        const TextSpan(text: "Numero:    "),
+                            text:
+                                "${controller.details['centreAppel'] ?? ''}\n"),
+                        const TextSpan(text: "codeLegal:    "),
                         TextSpan(
-                            text: "${controller.details['numero'] ?? ''}\n"),
+                            text: "${controller.details['codeLegal'] ?? ''}\n"),
+                        const TextSpan(text: "mdp:    "),
+                        TextSpan(text: "${controller.details['mdp'] ?? ''}\n"),
                         const TextSpan(text: "Email:    "),
                         TextSpan(
                             text: "${controller.details['email'] ?? ''}\n"),
-                        const TextSpan(text: "Etat civil:    "),
+                        const TextSpan(text: "statut:    "),
                         TextSpan(
-                            text: "${controller.details['etatCivil'] ?? ''}\n"),
-                        const TextSpan(text: "Nationalité:    "),
+                            text: "${controller.details['statut'] ?? ''}\n"),
+                        const TextSpan(text: "type:    "),
+                        TextSpan(text: "${controller.details['type'] ?? ''}\n"),
+                        const TextSpan(text: "rccm:    "),
+                        TextSpan(text: "${controller.details['rccm'] ?? ''}\n"),
+                        const TextSpan(text: "suspendre:    "),
                         TextSpan(
-                            text:
-                                "${controller.details['nationalite'] ?? ''}\n"),
+                            text: "${controller.details['suspendre'] ?? ''}\n"),
                       ]),
                     ),
                   ),
@@ -101,14 +106,18 @@ class ListageSuspendu extends GetView<SuspendusController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.green),
-                          ),
-                          onPressed: () {},
-                          child: Text("Restorer")),
-                      SizedBox(
-                        width: 20,
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                        ),
+                        onPressed: () {
+                          //
+                          controller.details['suspendre'] = false;
+                          controller.details['statut'] = "accepté";
+                          //
+                          controller.updateDemandeur(controller.details);
+                        },
+                        child: Text("Restorer"),
                       ),
                     ],
                   )

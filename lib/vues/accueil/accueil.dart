@@ -86,7 +86,7 @@ class _Accueil extends State<Accueil> {
                     //color: Colors.red.shade700,
                     //width: 100,
                     child: Text(
-                      "12",
+                      "",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -117,7 +117,7 @@ class _Accueil extends State<Accueil> {
                     //color: Colors.red.shade700,
                     //width: 100,
                     child: Text(
-                      "120",
+                      "",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -145,7 +145,7 @@ class _Accueil extends State<Accueil> {
                     //color: Colors.red.shade700,
                     //width: 100,
                     child: Text(
-                      "120000",
+                      "",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -200,7 +200,36 @@ class _Accueil extends State<Accueil> {
                   //trailing: const Icon(Icons.arrow_forward_ios),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(""),
+                          content: Text(
+                              "Voulez-vous vraiment quitter l'application?"),
+                          actions: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                exit(0);
+                              },
+                              icon: Icon(
+                                Icons.check,
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
                   leading: Icon(Icons.close),
                   title: Text(
                     "Quitter",

@@ -14,7 +14,7 @@ class SuspendusController extends GetxController {
   SuspenduConnexion suspenduConnexion = SuspenduConnexion();
   //
   //RxList suspandus = RxList();
-  allDemandeurs() async {
+  allSuspendu() async {
     Response rep = await suspenduConnexion.allDemandeur();
     if (rep.statusCode == 200 || rep.statusCode == 201) {
       suspandus.value = jsonDecode(rep.bodyString!);
@@ -32,7 +32,7 @@ class SuspendusController extends GetxController {
       details.value = {}; //jsonDecode(rep.bodyString!);
       load.value = false;
       details.value = {}; //1
-      allDemandeurs(); //2
+      allSuspendu(); //2
       print("cool");
     } else {
       load.value = false;
@@ -47,7 +47,7 @@ class SuspenduConnexion extends GetConnect {
       );
 
   Future<Response> allDemandeur() async => await get(
-        "${Utils.url}/client/allstarter/bloqué",
+        "${Utils.url}/client/allstarter/bloquer",
       );
 
   Future<Response> updateDemandeur(Map<dynamic, dynamic> up) async => await put(

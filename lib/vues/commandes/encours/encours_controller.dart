@@ -13,38 +13,40 @@ class EncoursController extends GetxController {
   //
   RxList standards = RxList(); //standards
   //
+  RxList l = [].obs;
+  //
   RxList express = RxList(); //express
   //
   RxList historiques = RxList(); //historiques
   //
-  getStandards() async {
-    Response rep = await demandeurConnexion.getStandards();
+  getStandards(bool v) async {
+    Response rep = await demandeurConnexion.getStandards(v);
     if (rep.statusCode == 200 || rep.statusCode == 201) {
       standards.value = jsonDecode(rep.bodyString!);
       load.value = true;
-      print(rep.bodyString!);
+      //print(rep.bodyString!);
     } else {
       load.value = false;
     }
   }
 
-  getExpress() async {
-    Response rep = await demandeurConnexion.getExpress();
+  getExpress(bool v) async {
+    Response rep = await demandeurConnexion.getExpress(v);
     if (rep.statusCode == 200 || rep.statusCode == 201) {
       express.value = jsonDecode(rep.bodyString!);
       load.value = true;
-      print(rep.bodyString!);
+      //print(rep.bodyString!);
     } else {
       load.value = false;
     }
   }
 
-  getHistoriques() async {
-    Response rep = await demandeurConnexion.getHistoriques();
+  getHistoriques(bool v) async {
+    Response rep = await demandeurConnexion.getHistoriques(v);
     if (rep.statusCode == 200 || rep.statusCode == 201) {
       historiques.value = jsonDecode(rep.bodyString!);
       load.value = true;
-      print(rep.bodyString!);
+      //print(rep.bodyString!);
     } else {
       load.value = false;
     }
@@ -68,17 +70,17 @@ class EncoursController extends GetxController {
 
 class EncoursConnexion extends GetConnect {
   Future<Response> enregistreAgent(Map<String, dynamic> p) async => await get(
-        "${Utils.url}/client/save",
+        "${Utils.url}/commande/save",
       );
 
-  Future<Response> getStandards() async => await get(
-        "${Utils.url}/client/allstarter/accepté",
+  Future<Response> getStandards(bool valeur) async => await get(
+        "${Utils.url}/commande/standards/$valeur",
       );
-  Future<Response> getExpress() async => await get(
-        "${Utils.url}/client/allstarter/accepté",
+  Future<Response> getExpress(bool valeur) async => await get(
+        "${Utils.url}/commande/express/$valeur",
       );
-  Future<Response> getHistoriques() async => await get(
-        "${Utils.url}/client/allstarter/accepté",
+  Future<Response> getHistoriques(bool valeur) async => await get(
+        "${Utils.url}/commande/allstarter/$valeur",
       );
 
   Future<Response> updateDemandeur(Map<dynamic, dynamic> up) async => await put(

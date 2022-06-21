@@ -1,4 +1,5 @@
 import 'package:africulture_desktop/vues/produits/creation/creation_produit.dart';
+import 'package:africulture_desktop/vues/produits/topbar/topbar.dart';
 import 'package:flutter/material.dart';
 
 import 'africulture_produit.dart';
@@ -12,7 +13,7 @@ class Vendeur extends StatefulWidget {
 }
 
 class _Vendeur extends State<Vendeur> with TickerProviderStateMixin {
-  List angles = ["Ajouter un produit", "Liste de nos produits"];
+  List angles = ["Ajouter un produit", "Liste de nos produits", "TopBar"];
   late TabController controller;
 
   @override
@@ -54,10 +55,7 @@ class _Vendeur extends State<Vendeur> with TickerProviderStateMixin {
           flex: 1,
           child: TabBarView(
             controller: controller,
-            children: [
-              CreationProduit(),
-              AfricultureProduit(),
-            ],
+            children: [CreationProduit(), AfricultureProduit(), TopBar()],
           ),
         )
       ],

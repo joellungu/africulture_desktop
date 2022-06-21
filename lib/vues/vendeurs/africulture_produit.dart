@@ -20,6 +20,8 @@ class _AfricultureProduit extends State<AfricultureProduit> {
   ];
   //
   var categorie = "Art";
+  bool v = false;
+  String aff = "1";
 
   Widget? vue;
 
@@ -40,23 +42,47 @@ class _AfricultureProduit extends State<AfricultureProduit> {
           height: 40,
           //color: Colors.blue,
           alignment: Alignment.center,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              isExpanded: true,
-              value: categorie,
-              items: List.generate(categories.length, (index) {
-                return DropdownMenuItem(
-                  value: "${categories[index]}",
-                  child: Text("${categories[index]}"),
-                );
-              }),
-              onChanged: (e) {
-                setState(() {
-                  categorie = e!;
-                  vue = ListageVendeur(categorie);
-                });
-              },
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Checkbox(
+                  value: v,
+                  onChanged: (g) {
+                    setState(() {
+                      v = g!;
+                      if (v) {
+                        aff = "0";
+                      } else {
+                        aff = "1";
+                      }
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: categorie,
+                    items: List.generate(categories.length, (index) {
+                      return DropdownMenuItem(
+                        value: "${categories[index]}",
+                        child: Text("${categories[index]}"),
+                      );
+                    }),
+                    onChanged: (e) {
+                      setState(() {
+                        categorie = e!;
+                        vue = ListageVendeur(categorie, aff);
+                      });
+                    },
+                  ),
+                ),
+              )
+            ],
           ),
         ),
         Expanded(flex: 1, child: vue!)

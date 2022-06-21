@@ -1,7 +1,6 @@
 import 'package:africulture_desktop/vues/admin/boutiques/accepter/accepter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'details/details_boutique.dart';
 
 class ListageAccepter extends GetView<AccepterController> {
@@ -124,7 +123,7 @@ class ListageAccepter extends GetView<AccepterController> {
                           ),
                           onPressed: () {
                             controller.details['suspendre'] = true;
-                            controller.details['statut'] = "bloqué";
+                            controller.details['statut'] = "bloquer";
                             //
                             controller.updateDemandeur(controller.details);
                           },

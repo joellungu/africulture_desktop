@@ -108,6 +108,7 @@ class _Partie3 extends State<Partie3> {
                       "prixRabes": 0.0,
                       "nombreImages": listeImage.length,
                       "nomBoutique": "AfricCulture",
+                      "topbar": false, //,
                       "longueur": creationController.longueur.value,
                       "largeur": creationController.largeur.value,
                       "profondeur": creationController.profondeur.value,

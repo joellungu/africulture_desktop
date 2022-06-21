@@ -15,11 +15,12 @@ class VendeurController extends GetxController with StateMixin<List> {
   RxList produits = RxList();
   RxList images = RxList();
 
-  getParCategorieForAdmin(String categorie) async {
-    //print(categorie);
+  getParCategorieForAdmin(String categorie, String aff) async {
+    print(categorie + "$aff");
     //load.value = false;
     details = RxMap();
-    Response rep = await vendeurConnexion.getParCategorieForAdmin(categorie);
+    Response rep =
+        await vendeurConnexion.getParCategorieForAdmin(categorie, aff);
     if (rep.statusCode == 200 || rep.statusCode == 201) {
       //print(rep.bodyString!);
       produits.value = jsonDecode(rep.bodyString!);
@@ -30,6 +31,10 @@ class VendeurController extends GetxController with StateMixin<List> {
       //load.value = false;
       change([], status: RxStatus.success());
     }
+  }
+
+  getAllFavorit(){
+
   }
 
   getListeImages(String idproduit) async {
@@ -48,8 +53,15 @@ class VendeurController extends GetxController with StateMixin<List> {
 }
 
 class VendeurConnexion extends GetConnect {
-  Future<Response> getParCategorieForAdmin(String categorie) async => await get(
-        "${Utils.url}/produit/categorie_admin/$categorie",
+  Future<Response> getParCategorieForAdmin(
+          String categorie, String aff) async =>
+      await get(
+        "${Utils.url}/produit/categorie_admin/$categorie/$aff",
+      );
+  //
+  Future<Response> getAllFavorit() async =>
+      await get(
+        "${Utils.url}/produit/categorie_admin",
       );
   //
   Future<Response> getListeImages(String categorie) async => await get(
