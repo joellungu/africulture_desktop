@@ -10,13 +10,17 @@ class AgentController extends GetxController {
   enregistreAgent(Map<String, dynamic> p) async {
     //idproduit;image
     Response rep = await agentConnexion.enregistreAgent(p);
-    if (rep.statusCode == 201 || rep.statusCode == 200) {
+    if (rep.isOk) {
       //
       print("${rep.body}");
       //box.write("produit", rep.body);
       Get.back();
-      Get.snackbar("SUCCESS", "Enregistrement effectué avec succes",
-          backgroundColor: Colors.blueGrey.shade300);
+      Get.snackbar(
+        "Réponse du serveur",
+        "${rep.body}",
+        backgroundColor: Colors.blueGrey.shade300,
+        duration: Duration(seconds: 5),
+      );
     } else {
       //
       print("${rep.statusCode}");
@@ -49,6 +53,20 @@ class AgentController extends GetxController {
       load.value = false;
     }
   }
+
+  Future<Map<String, dynamic>> getAgent(String id) async {
+    load.value = false;
+    details = RxMap();
+    Response rep = await agentConnexion.getAgent(id);
+    if (rep.isOk) {
+      //agents.value = jsonDecode(rep.bodyString!);
+      //load.value = true;
+      print(rep.body);
+      return rep.body;
+    } else {
+      return {};
+    }
+  }
 }
 
 class AgentConnexion extends GetConnect {
@@ -59,5 +77,8 @@ class AgentConnexion extends GetConnect {
 
   Future<Response> allAgent() async => await get(
         "${Utils.url}/agent/all",
+      );
+  Future<Response> getAgent(String id) async => await get(
+        "${Utils.url}/agent/$id",
       );
 }

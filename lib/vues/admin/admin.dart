@@ -5,6 +5,7 @@ import 'package:africulture_desktop/vues/admin/boutiques/boutique.dart';
 import 'package:africulture_desktop/vues/admin/partenaire/liste_partenaire.dart';
 import 'package:africulture_desktop/vues/admin/partenaire/nouveau_partenaire.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Admin extends StatefulWidget {
   @override
@@ -26,6 +27,10 @@ class _Admin extends State<Admin> with TickerProviderStateMixin {
     "Admin "
   ];
   late TabController controller;
+  RxList<bool> choix =
+      [true, false, false, false, false, false, false, false, false].obs;
+  //
+  RxInt vue = 0.obs;
 
   @override
   void initState() {
@@ -44,6 +49,25 @@ class _Admin extends State<Admin> with TickerProviderStateMixin {
           height: 40,
           //color: Colors.blue,
           alignment: Alignment.center,
+          child: Obx(
+            () => ToggleButtons(
+              children: List.generate(
+                  angles.length, ((index) => Text(" ${angles[index]} "))),
+              onPressed: (int index) {
+                for (int btnIndex = 0; btnIndex < choix.length; btnIndex++) {
+                  if (btnIndex == index) {
+                    choix[btnIndex] = true;
+                    vue.value = index;
+                  } else {
+                    choix[btnIndex] = false;
+                  }
+                }
+              },
+              borderRadius: BorderRadius.circular(10),
+              isSelected: choix.value,
+            ),
+          ),
+          /*
           child: TabBar(
             isScrollable: true,
             controller: controller,
@@ -61,34 +85,30 @@ class _Admin extends State<Admin> with TickerProviderStateMixin {
               );
             }),
           ),
+          */
         ),
         Expanded(
           flex: 1,
-          child: TabBarView(
-            controller: controller,
-            children: List.generate(angles.length, (index) {
-              if (index == 0) {
-                return NouvelleAgents();
-              } else if (index == 1) {
-                return ListageAgent();
-              } else if (index == 2) {
-                return NouveauPartenaire();
-              } else if (index == 3) {
-                return ListagePartenaire();
-              } else if (index == 4) {
-                return Boutiques();
-              } else if (index == 5) {
-                return Agences();
-              } else if (index == 6) {
-                return Container();
-              } else if (index == 7) {
-                return Container();
-              } else if (index == 8) {
-                return Container();
-              } else {
-                return Container();
-              }
-            }),
+          child: Obx(
+            () => Container(
+              child: vue.value == 0
+                  ? NouvelleAgents()
+                  : vue.value == 1
+                      ? ListageAgent()
+                      : vue.value == 2
+                          ? NouveauPartenaire()
+                          : vue.value == 3
+                              ? ListagePartenaire()
+                              : vue.value == 4
+                                  ? Boutiques()
+                                  : vue.value == 5
+                                      ? Agences()
+                                      : vue.value == 6
+                                          ? Container()
+                                          : vue.value == 7
+                                              ? Container()
+                                              : Container(),
+            ),
           ),
         )
       ],

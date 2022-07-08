@@ -1,4 +1,5 @@
 import 'package:africulture_desktop/vues/admin/boutiques/accepter/accepter_controller.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'details/details_boutique.dart';
@@ -12,7 +13,146 @@ class ListageAccepter extends GetView<AccepterController> {
     //
     controller.allAcceptes();
     //
-    return Row(
+    return DataTable2(
+      columnSpacing: 12,
+      horizontalMargin: 12,
+      minWidth: 600,
+      columns: const [
+        DataColumn2(
+          label: Text('Nom'),
+          size: ColumnSize.L,
+        ),
+        DataColumn(
+          label: Text('adresse'),
+        ),
+        DataColumn(
+          label: Text("Centre d'appel"),
+        ),
+        DataColumn(
+          label: Text('Email'),
+        ),
+        DataColumn(
+          label: Text('Statut'),
+          numeric: true,
+        ),
+        DataColumn(
+          label: Text('Type'),
+        ),
+        DataColumn(
+          label: Text('Rccm'),
+        ),
+      ],
+      rows: List<DataRow>.generate(
+        controller.accepter.length,
+        (index) => DataRow(
+            onLongPress: (() => menu(context, controller.accepter[index])),
+            cells: [
+              DataCell(Text('${controller.accepter[index]['nom']}')),
+              DataCell(Text('${controller.accepter[index]['adresse']}')),
+              DataCell(Text('${controller.accepter[index]['centreAppel']}')),
+              DataCell(Text('${controller.accepter[index]['email']}')),
+              DataCell(Text('${controller.accepter[index]['statut']}')),
+              DataCell(Text('${controller.accepter[index]['type']}')),
+              DataCell(Text('${controller.accepter[index]['rccm']}')),
+            ]),
+      ),
+    );
+  }
+
+  menu(BuildContext context, Map<dynamic, dynamic> d) {
+    showDialog(
+      context: context,
+      builder: (c) {
+        return Material(
+          color: Colors.transparent,
+          child: Center(
+            child: Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      const Text(
+                        "Menu",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                          ),
+                          onPressed: () {},
+                          child: Text("Notifier")),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                          ),
+                          onPressed: () {
+                            d['suspendre'] = true;
+                            d['statut'] = "bloquer";
+                            //
+                            controller.updateDemandeur(d);
+                          },
+                          child: Text("Suspendrer")),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green),
+                          ),
+                          onPressed: () {
+                            Get.to(DetailsBoutique());
+                          },
+                          child: Text("Plus d'infos")),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+
+/*
+Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
@@ -148,6 +288,5 @@ class ListageAccepter extends GetView<AccepterController> {
           ),
         ),
       ],
-    );
-  }
-}
+    )
+*/

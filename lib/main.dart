@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Africulture',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.grey,
       ),
       home: Splash(), //
     );

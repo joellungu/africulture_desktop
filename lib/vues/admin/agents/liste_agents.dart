@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,175 @@ class ListageAgent extends GetView<AgentController> {
     //
     controller.allAgents();
     //
-    return Row(
+    return DataTable2(
+      columnSpacing: 12,
+      horizontalMargin: 12,
+      minWidth: 600,
+      columns: const [
+        DataColumn2(
+          label: Text('Nom'),
+          size: ColumnSize.L,
+        ),
+        DataColumn(
+          label: Text('Postnom'),
+        ),
+        DataColumn(
+          label: Text('Prenom'),
+        ),
+        DataColumn(
+          label: Text('Email'),
+        ),
+        DataColumn(
+          label: Text('Numero'),
+          numeric: true,
+        ),
+        DataColumn2(
+          label: Text('Genre'),
+          size: ColumnSize.S,
+        ),
+        DataColumn2(
+          label: Text('Civilité'),
+          size: ColumnSize.S,
+        ),
+        DataColumn(
+          label: Text('dateNaissance'),
+          numeric: true,
+        ),
+        DataColumn(
+          label: Text('Role'),
+        ),
+        DataColumn(
+          label: Text('Nation'),
+          numeric: true,
+        ),
+      ],
+      rows: List<DataRow>.generate(
+        controller.agents.length,
+        (index) => DataRow(onLongPress: (() => menu(context)), cells: [
+          DataCell(
+            Text('${controller.agents[index]['nom']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['postnom']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['prenom']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['email']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['numero']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['sexe']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['etatCivil']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['dateNaissance']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['role']}'),
+          ),
+          DataCell(
+            Text('${controller.agents[index]['nationalite']}'),
+          )
+        ]),
+      ),
+    );
+  }
+
+  //
+  menu(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (c) {
+        return Material(
+          color: Colors.transparent,
+          child: Center(
+            child: Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      const Text(
+                        "Menu",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green),
+                          ),
+                          onPressed: () {},
+                          child: Text("Mettre à jour")),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.orange),
+                          ),
+                          onPressed: () {},
+                          child: Text("Suspendre")),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                          ),
+                          onPressed: () {},
+                          child: Text("Supprimer")),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+
+
+/*
+Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
@@ -135,6 +304,5 @@ class ListageAgent extends GetView<AgentController> {
           ),
         ),
       ],
-    );
-  }
-}
+    )
+*/

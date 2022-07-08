@@ -1,4 +1,5 @@
 import 'package:africulture_desktop/vues/admin/boutiques/suspendus/suspendus_controller.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,124 @@ class ListageSuspendu extends GetView<SuspendusController> {
     //
     controller.allSuspendu();
     //
-    return Row(
+    return DataTable2(
+      columnSpacing: 12,
+      horizontalMargin: 12,
+      minWidth: 600,
+      columns: const [
+        DataColumn2(
+          label: Text('Nom'),
+          size: ColumnSize.L,
+        ),
+        DataColumn(
+          label: Text('adresse'),
+        ),
+        DataColumn(
+          label: Text("Centre d'appel"),
+        ),
+        DataColumn(
+          label: Text('Email'),
+        ),
+        DataColumn(
+          label: Text('Statut'),
+          numeric: true,
+        ),
+        DataColumn(
+          label: Text('Type'),
+        ),
+        DataColumn(
+          label: Text('Rccm'),
+        ),
+      ],
+      rows: List<DataRow>.generate(
+        controller.suspandus.length,
+        (index) => DataRow(
+            onLongPress: (() => menu(context, controller.suspandus[index])),
+            cells: [
+              DataCell(Text('${controller.suspandus[index]['nom']}')),
+              DataCell(Text('${controller.suspandus[index]['adresse']}')),
+              DataCell(Text('${controller.suspandus[index]['centreAppel']}')),
+              DataCell(Text('${controller.suspandus[index]['email']}')),
+              DataCell(Text('${controller.suspandus[index]['statut']}')),
+              DataCell(Text('${controller.suspandus[index]['type']}')),
+              DataCell(Text('${controller.suspandus[index]['rccm']}')),
+            ]),
+      ),
+    );
+  }
+
+  menu(BuildContext context, Map<dynamic, dynamic> d) {
+    showDialog(
+      context: context,
+      builder: (c) {
+        return Material(
+          color: Colors.transparent,
+          child: Center(
+            child: Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      const Text(
+                        "Menu",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                        ),
+                        onPressed: () {
+                          //
+                          d['suspendre'] = false;
+                          d['statut'] = "accepté";
+                          //
+                          controller.updateDemandeur(d);
+                        },
+                        child: Text("Restorer"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/*
+Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
@@ -127,6 +245,5 @@ class ListageSuspendu extends GetView<SuspendusController> {
           ),
         ),
       ],
-    );
-  }
-}
+    )
+*/

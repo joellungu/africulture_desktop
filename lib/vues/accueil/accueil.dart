@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:africulture_desktop/vues/accueil/accueilController.dart';
 import 'package:africulture_desktop/vues/admin/admin.dart';
 import 'package:africulture_desktop/vues/commandes/commande.dart';
-import 'package:africulture_desktop/vues/produits/produits.dart';
-import 'package:africulture_desktop/vues/vendeurs/vendeurs.dart';
-import 'package:desktop_notifications/desktop_notifications.dart';
+import 'package:africulture_desktop/vues/produit/produit.dart';
+import 'package:africulture_desktop/vues/utilisateurs/utilisateurs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -104,7 +102,7 @@ class _Accueil extends State<Accueil> {
                     //
                     setState(() {
                       titre = "Nos produits";
-                      vue = Vendeur();
+                      vue = Produit();
                       Navigator.of(context).pop();
                     });
                   },
@@ -174,9 +172,7 @@ class _Accueil extends State<Accueil> {
                   onTap: () {
                     setState(() {
                       titre = "Utilisateurs";
-                      vue = Container(
-                        color: Colors.green,
-                      );
+                      vue = Utilisateur();
                       Navigator.of(context).pop();
                     });
                   },
@@ -243,8 +239,13 @@ class _Accueil extends State<Accueil> {
       ),
       appBar: AppBar(
         elevation: 0,
-        title: Text(titre),
-        backgroundColor: Colors.black,
+        title: Text(
+          titre,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
         /*
         flexibleSpace: Container(
           decoration: BoxDecoration(

@@ -33,8 +33,12 @@ class SuspendusController extends GetxController {
       load.value = false;
       details.value = {}; //1
       allSuspendu(); //2
-      print("cool");
+      Get.back();
+      Get.snackbar("SUCCES", "Modification éffectué");
     } else {
+      Get.back();
+      Get.snackbar(
+          "Erreur ", "Modification non éffectué, erreur: ${rep.statusCode}");
       load.value = false;
     }
   }

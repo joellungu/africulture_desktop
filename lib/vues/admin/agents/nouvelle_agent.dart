@@ -18,6 +18,18 @@ class NouvelleAgents extends GetView<AgentController> {
   var dateNaissance = DateTime.now();
   List nationalites = ["Congolaise", "Autre"];
   var nationalite = "Congolaise";
+  List roles = [
+    "Admin niveau n°1",
+    "Admin niveau n°2",
+    "Receptionniste",
+    "Service client",
+    "Marketer",
+    "R.H",
+    "Controlleur",
+    "Responsable de stock",
+    "Responsable de livraison",
+  ];
+  var role = "Receptionniste";
   //final mdp = TextEditingController();
 
   @override
@@ -150,7 +162,7 @@ class NouvelleAgents extends GetView<AgentController> {
                           return DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               isExpanded: true,
-                              value: sexe,
+                              value: etatCivil,
                               items: List.generate(etatCivils.length, (index) {
                                 return DropdownMenuItem(
                                   value: "${etatCivils[index]}",
@@ -159,7 +171,38 @@ class NouvelleAgents extends GetView<AgentController> {
                               }),
                               onChanged: (e) {
                                 setState(() {
-                                  sexe = e!;
+                                  etatCivil = e!;
+                                });
+                              },
+                            ),
+                          );
+                        }),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Role    "),
+                      Expanded(
+                        flex: 1,
+                        child: StatefulBuilder(builder: (context, setState) {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: role,
+                              items: List.generate(roles.length, (index) {
+                                return DropdownMenuItem(
+                                  value: "${roles[index]}",
+                                  child: Text("${roles[index]}"),
+                                );
+                              }),
+                              onChanged: (e) {
+                                setState(() {
+                                  role = e!;
                                 });
                               },
                             ),
@@ -191,7 +234,7 @@ class NouvelleAgents extends GetView<AgentController> {
                               }),
                               onChanged: (e) {
                                 setState(() {
-                                  sexe = e!;
+                                  nationalite = e!;
                                 });
                               },
                             ),
@@ -236,7 +279,7 @@ class NouvelleAgents extends GetView<AgentController> {
                           "prenom": prenom.text,
                           "email": email.text,
                           "numero": numero.text,
-                          "role": "1",
+                          "role": role,
                           "sexe": sexe,
                           "etatCivil": etatCivil,
                           "dateNaissance": "$dateNaissance",

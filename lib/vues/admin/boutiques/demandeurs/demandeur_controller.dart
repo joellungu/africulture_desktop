@@ -27,13 +27,18 @@ class DemandeurController extends GetxController {
   updateDemandeur(Map<dynamic, dynamic> up) async {
     //
     Response rep = await demandeurConnexion.updateDemandeur(up);
-    if (rep.statusCode == 200 || rep.statusCode == 201) {
+    if (rep.isOk) {
       details.value = {}; //jsonDecode(rep.bodyString!);
       load.value = false;
       details.value = {}; //1
       allDemandeurs(); //2
       print("cool");
+      Get.back();
+      Get.snackbar("SUCCES", "Modification éffectué");
     } else {
+      Get.back();
+      Get.snackbar(
+          "Erreur ", "Modification non éffectué, erreur: ${rep.statusCode}");
       load.value = false;
     }
   }

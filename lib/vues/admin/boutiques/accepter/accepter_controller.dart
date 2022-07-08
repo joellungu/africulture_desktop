@@ -19,8 +19,11 @@ class AccepterController extends GetxController {
       accepter.value = jsonDecode(rep.bodyString!);
       load.value = true;
       print(rep.bodyString!);
+      Get.back();
     } else {
       load.value = false;
+      Get.back();
+      Get.snackbar("Erreur", "Un probléme code: ${rep.statusCode}");
     }
   }
 
@@ -33,7 +36,12 @@ class AccepterController extends GetxController {
       details.value = {}; //1
       allAcceptes(); //2
       print("cool");
+      Get.back();
+      Get.snackbar("SUCCES", "Modification éffectué");
     } else {
+      Get.back();
+      Get.snackbar(
+          "Erreur ", "Modification non éffectué, erreur: ${rep.statusCode}");
       load.value = false;
     }
   }

@@ -19,9 +19,11 @@ class EncoursController extends GetxController {
   //
   RxList historiques = RxList(); //historiques
   //
+  RxList listProduitDansPanier = RxList();
+  //
   getStandards(bool v) async {
     Response rep = await demandeurConnexion.getStandards(v);
-    if (rep.statusCode == 200 || rep.statusCode == 201) {
+    if (rep.isOk) {
       standards.value = jsonDecode(rep.bodyString!);
       load.value = true;
       //print(rep.bodyString!);
@@ -32,7 +34,7 @@ class EncoursController extends GetxController {
 
   getExpress(bool v) async {
     Response rep = await demandeurConnexion.getExpress(v);
-    if (rep.statusCode == 200 || rep.statusCode == 201) {
+    if (rep.isOk) {
       express.value = jsonDecode(rep.bodyString!);
       load.value = true;
       //print(rep.bodyString!);
@@ -43,7 +45,7 @@ class EncoursController extends GetxController {
 
   getHistoriques(bool v) async {
     Response rep = await demandeurConnexion.getHistoriques(v);
-    if (rep.statusCode == 200 || rep.statusCode == 201) {
+    if (rep.isOk) {
       historiques.value = jsonDecode(rep.bodyString!);
       load.value = true;
       //print(rep.bodyString!);
@@ -56,7 +58,7 @@ class EncoursController extends GetxController {
   updateDemandeur(Map<dynamic, dynamic> up) async {
     //
     Response rep = await demandeurConnexion.updateDemandeur(up);
-    if (rep.statusCode == 200 || rep.statusCode == 201) {
+    if (rep.isOk) {
       details.value = {}; //jsonDecode(rep.bodyString!);
       load.value = false;
       details.value = {}; //1
@@ -66,6 +68,21 @@ class EncoursController extends GetxController {
       load.value = false;
     }
   }
+
+  //
+  vendeurcommandePanierProduit(String code) async {
+    Response rep = await demandeurConnexion.vendeurcommandePanierProduit(code);
+
+    print("La liste des produit: ${rep.body}");
+    if (rep.isOk) {
+      //
+      listProduitDansPanier.value = rep.body;
+    } else {
+      //
+      listProduitDansPanier.value = [];
+    }
+  }
+  //
 }
 
 class EncoursConnexion extends GetConnect {
@@ -87,4 +104,10 @@ class EncoursConnexion extends GetConnect {
         "${Utils.url}/client/update",
         jsonEncode(up),
       );
+  //
+  Future<Response> vendeurcommandePanierProduit(String code) async {
+    print("${Utils.url}/vendeurcommande/all/$code");
+    return post("${Utils.url}/vendeurcommande/all", code,
+        headers: {"Content-Type": "text/plain"});
+  }
 }
